@@ -1,24 +1,25 @@
-package com.achchaimae.loisiresa.Domain.user;
+package com.achchaimae.loisiresa.Domain.user.dto;
 
 import com.achchaimae.loisiresa.Domain.conversation.Conversation;
+import com.achchaimae.loisiresa.Domain.conversation.dto.ConversationReqDTO;
 import com.achchaimae.loisiresa.Domain.message.Message;
+import com.achchaimae.loisiresa.Domain.message.dto.MessageReqDTO;
 import com.achchaimae.loisiresa.Domain.user.enumeration.IdentityDocumentType;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
 import lombok.*;
 
-
 import java.time.LocalDate;
-import java.util.List;
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "app_user")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class UserReqDTO {
+
     private long id;
 
     @NotBlank(message = "First name cannot be blank")
@@ -36,13 +37,12 @@ public class User {
     @NotBlank(message = "Email cannot be blank")
     @Email(message = "Invalid email format")
     private String email;
-
     private IdentityDocumentType identityDocumentType;
     private String identityNum;
 
-    @ManyToMany(mappedBy = "users")
-    private List<Conversation> conversations;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Message> messages;
+    private Integer conversation_Id;
+
+
+    private Integer message_Id;
 }

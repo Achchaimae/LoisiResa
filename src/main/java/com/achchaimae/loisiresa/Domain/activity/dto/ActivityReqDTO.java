@@ -15,5 +15,7 @@ public class ActivityReqDTO {
     private String name;
     private Float tariff;
     private Integer rating;
+    private Integer club_id;
+
 
 }

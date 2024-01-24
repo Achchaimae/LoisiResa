@@ -5,6 +5,8 @@ import com.achchaimae.loisiresa.Domain.user.contact.dto.ContactReqDTO;
 import com.achchaimae.loisiresa.Domain.user.guide.dto.GuideReqDTO;
 import lombok.Data;
 
+import java.util.List;
+
 
 @Data
 public class ClubRespDTO {
@@ -14,7 +16,7 @@ public class ClubRespDTO {
     private Integer phone;
     private String logo;
 
-    private ActivityReqDTO activities;
-    private ContactReqDTO contactList;
-    private GuideReqDTO guides;
+    private List<ActivityReqDTO> activities;
+    private List<ContactReqDTO> contactList;
+    private List<GuideReqDTO> guides;
 }

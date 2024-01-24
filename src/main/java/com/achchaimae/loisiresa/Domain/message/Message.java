@@ -1,9 +1,8 @@
 package com.achchaimae.loisiresa.Domain.message;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.achchaimae.loisiresa.Domain.conversation.Conversation;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -19,5 +18,8 @@ public class Message {
     private int id;
     private String content;
     private LocalTime time;
+    @ManyToOne
+    @JoinColumn(name = "conversation_id")
+    private Conversation conversation;
 
 }

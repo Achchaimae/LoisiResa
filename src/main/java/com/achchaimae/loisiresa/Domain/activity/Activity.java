@@ -23,11 +23,14 @@ public class Activity {
     private String name;
     private Float tariff;
     private Integer rating;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "activity_id")
     private List<Guide> guideList;
+
     @OneToMany(mappedBy = "id.activity",cascade = { CascadeType.MERGE, CascadeType.REMOVE })
     private List<Reservation> reservations;
+
     @ManyToOne
     @JoinColumn(name = "club_id")
     private Club club;
