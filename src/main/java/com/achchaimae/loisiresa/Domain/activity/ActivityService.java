@@ -5,6 +5,8 @@ import com.achchaimae.loisiresa.Domain.activity.dto.ActivityRespDTO;
 import com.achchaimae.loisiresa.Exception.RecordAlreadyExistsException;
 import com.achchaimae.loisiresa.Exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,10 +25,10 @@ public class ActivityService implements ActivityServiceInterface{
     }
 
 
-    public List<ActivityRespDTO> getActivities(){
-        return activityRepository.findAll().stream()
-            .map(level -> modelMapper.map(level, ActivityRespDTO.class))
-            .collect(Collectors.toList());
+
+    public Page<ActivityRespDTO> getActivities(Pageable pageable){
+      Page<Activity> entityPage = activityRepository.findAll(pageable);
+      return  entityPage.map(entity -> modelMapper.map(entity, ActivityRespDTO.class));
     }
 
     public ActivityRespDTO findActivity(Integer activityId){
