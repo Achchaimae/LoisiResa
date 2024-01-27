@@ -8,10 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ActivityService implements ActivityServiceInterface{
@@ -54,7 +51,7 @@ public class ActivityService implements ActivityServiceInterface{
             if(existActivity.getId()!=activity.getId() && activityRepository.existsById(activity.getId())){
                 throw new RecordAlreadyExistsException("Member with num " + activity.getId() + " already exists.");
             }
-            activity.setId(Integer.valueOf(existActivity.getId()));
+            activity.setId(existActivity.getId());
             return  modelMapper.map(activityRepository.save(modelMapper.map(activity,Activity.class)), ActivityRespDTO.class);
         }else {
         throw new ResourceNotFoundException("Activity with id " + id + " not found.");
