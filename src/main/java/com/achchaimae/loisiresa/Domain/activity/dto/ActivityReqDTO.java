@@ -1,8 +1,8 @@
 package com.achchaimae.loisiresa.Domain.activity.dto;
+
 import com.achchaimae.loisiresa.Domain.media.dto.MediaReqDTO;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.*;
+import lombok.*;
 
 import java.util.List;
 
@@ -11,11 +11,17 @@ import java.util.List;
 @AllArgsConstructor
 public class ActivityReqDTO {
     private int id;
+
     private List<MediaReqDTO> mediaList;
+
+    @NotBlank(message = "Name cannot be blank")
     private String name;
+
+    @NotNull(message = "Tariff cannot be null")
     private Float tariff;
+
     private Integer rating;
+
+    @NotNull(message = "Club ID cannot be null")
     private Integer club_id;
-
-
 }
