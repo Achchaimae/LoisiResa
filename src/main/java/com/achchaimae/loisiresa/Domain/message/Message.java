@@ -2,6 +2,7 @@ package com.achchaimae.loisiresa.Domain.message;
 
 
 import com.achchaimae.loisiresa.Domain.conversation.Conversation;
+import com.achchaimae.loisiresa.Domain.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,5 +22,8 @@ public class Message {
     @ManyToOne
     @JoinColumn(name = "conversation_id")
     private Conversation conversation;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }
