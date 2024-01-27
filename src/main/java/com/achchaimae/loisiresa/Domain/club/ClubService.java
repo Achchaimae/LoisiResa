@@ -6,8 +6,7 @@ import com.achchaimae.loisiresa.Domain.club.dto.ClubRespDTO;
 import com.achchaimae.loisiresa.Exception.RecordAlreadyExistsException;
 import com.achchaimae.loisiresa.Exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
