@@ -22,7 +22,7 @@ public class ClubRespDTO {
     @NotNull(message = "Phone number cannot be null")
     private Integer phone;
 
-    // Assuming the logo can be nullable, no validation applied
+
     private String logo;
 
     private List<ActivityReqDTO> activities;

@@ -1,7 +1,7 @@
 package com.achchaimae.loisiresa.Domain.user.client;
 
 import com.achchaimae.loisiresa.Domain.reservation.Reservation;
-import com.achchaimae.loisiresa.Domain.user.User;
+import com.achchaimae.loisiresa.security.user.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;

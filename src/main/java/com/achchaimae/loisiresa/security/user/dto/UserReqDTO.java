@@ -1,19 +1,19 @@
-package com.achchaimae.loisiresa.Domain.user.dto;
+package com.achchaimae.loisiresa.security.user.dto;
 
-import com.achchaimae.loisiresa.Domain.conversation.dto.ConversationReqDTO;
-import com.achchaimae.loisiresa.Domain.message.dto.MessageReqDTO;
 import com.achchaimae.loisiresa.Domain.user.enumeration.IdentityDocumentType;
+
+import com.achchaimae.loisiresa.security.user.Role;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class UserRespDTO {
-    private long id;
+@AllArgsConstructor
+public class UserReqDTO {
+
+    private Integer id;
 
     @NotBlank(message = "First name cannot be blank")
     private String firstName;
@@ -30,12 +30,16 @@ public class UserRespDTO {
     @NotBlank(message = "Email cannot be blank")
     @Email(message = "Invalid email format")
     private String email;
+    @Size(min = 8, message = "Password must exceed 8  characters")
+    private String password;
+    private Role role;
+
     private IdentityDocumentType identityDocumentType;
     private String identityNum;
 
 
-    private List<ConversationReqDTO> conversations;
+    private Integer conversation_Id;
 
 
-    private List<MessageReqDTO> messages;
+    private Integer message_Id;
 }

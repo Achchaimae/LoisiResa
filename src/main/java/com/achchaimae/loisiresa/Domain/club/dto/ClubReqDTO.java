@@ -15,7 +15,7 @@ public class ClubReqDTO {
     @NotBlank(message = "location is required")
     private String location;
     @NotBlank(message = "phone is required")
-    private Integer phone;
+    private String  phone;
     @NotBlank(message = "logo is required")
     private String logo;
 

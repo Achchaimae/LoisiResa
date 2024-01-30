@@ -1,7 +1,7 @@
 package com.achchaimae.loisiresa.Domain.user.guide;
 
 import com.achchaimae.loisiresa.Domain.club.Club;
-import com.achchaimae.loisiresa.Domain.user.User;
+import com.achchaimae.loisiresa.security.user.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;

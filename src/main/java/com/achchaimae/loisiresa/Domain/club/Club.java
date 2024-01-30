@@ -28,7 +28,9 @@ public class Club {
     private String location;
 
     @NotNull(message = "Phone number cannot be null")
-    private Integer phone;
+    private String  phone;
+    @NotBlank(message = "logo is required")
+    private String logo;
 
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
     private List<Activity> activities;

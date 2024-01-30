@@ -1,26 +1,19 @@
-package com.achchaimae.loisiresa.Domain.user.dto;
+package com.achchaimae.loisiresa.security.user.dto;
 
-import com.achchaimae.loisiresa.Domain.conversation.Conversation;
 import com.achchaimae.loisiresa.Domain.conversation.dto.ConversationReqDTO;
-import com.achchaimae.loisiresa.Domain.message.Message;
 import com.achchaimae.loisiresa.Domain.message.dto.MessageReqDTO;
 import com.achchaimae.loisiresa.Domain.user.enumeration.IdentityDocumentType;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class UserReqDTO {
-
-    private long id;
+@NoArgsConstructor
+public class UserRespDTO {
+    private Integer id;
 
     @NotBlank(message = "First name cannot be blank")
     private String firstName;
@@ -33,6 +26,8 @@ public class UserReqDTO {
 
     @NotBlank(message = "Address cannot be blank")
     private String address;
+    @Size(min = 8, message = "Password must exceed 8  characters")
+    private String password;
 
     @NotBlank(message = "Email cannot be blank")
     @Email(message = "Invalid email format")
@@ -41,8 +36,8 @@ public class UserReqDTO {
     private String identityNum;
 
 
-    private Integer conversation_Id;
+    private List<ConversationReqDTO> conversations;
 
 
-    private Integer message_Id;
+    private List<MessageReqDTO> messages;
 }

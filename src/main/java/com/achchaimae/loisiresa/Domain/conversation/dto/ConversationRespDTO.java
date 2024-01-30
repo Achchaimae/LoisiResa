@@ -1,8 +1,7 @@
 package com.achchaimae.loisiresa.Domain.conversation.dto;
 
-import com.achchaimae.loisiresa.Domain.message.Message;
 import com.achchaimae.loisiresa.Domain.message.dto.MessageReqDTO;
-import com.achchaimae.loisiresa.Domain.user.dto.UserReqDTO;
+import com.achchaimae.loisiresa.security.user.dto.UserReqDTO;
 import lombok.Data;
 
 import java.time.LocalDate;

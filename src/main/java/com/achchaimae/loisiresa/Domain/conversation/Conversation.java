@@ -1,12 +1,11 @@
 package com.achchaimae.loisiresa.Domain.conversation;
 
 import com.achchaimae.loisiresa.Domain.message.Message;
-import com.achchaimae.loisiresa.Domain.user.User;
+import com.achchaimae.loisiresa.security.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
