@@ -2,6 +2,7 @@ package com.achchaimae.loisiresa.security.user.dto;
 
 import com.achchaimae.loisiresa.Domain.user.enumeration.IdentityDocumentType;
 
+
 import com.achchaimae.loisiresa.security.user.Role;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -38,8 +39,8 @@ public class UserReqDTO {
     private String identityNum;
 
 
-    private Integer conversation_Id;
-
-
-    private Integer message_Id;
+//    private Integer conversation_Id;
+//
+//
+//    private Integer message_Id;
 }

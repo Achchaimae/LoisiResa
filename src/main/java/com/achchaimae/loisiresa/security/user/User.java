@@ -1,26 +1,30 @@
 package com.achchaimae.loisiresa.security.user;
 
+
 import com.achchaimae.loisiresa.Domain.conversation.Conversation;
 import com.achchaimae.loisiresa.Domain.message.Message;
 import com.achchaimae.loisiresa.Domain.user.enumeration.IdentityDocumentType;
+import com.achchaimae.loisiresa.security.token.Token;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 
-import java.time.LocalDate;
+
 import java.util.Collection;
+import java.time.LocalDate;
 import java.util.List;
 
-@Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Entity
 @Table(name = "app_user")
+//public class User {
 public class User  implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,28 +45,33 @@ public class User  implements UserDetails {
     @NotBlank(message = "Email cannot be blank")
     @Email(message = "Invalid email format")
     private String email;
+    @NotBlank(message = "password is required")
+    private String password;
 
     private IdentityDocumentType identityDocumentType;
     private String identityNum;
-    @Enumerated
-    private Role role;
-    private String password;
 
     @ManyToMany(mappedBy = "users")
     private List<Conversation> conversations;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Message> messages;
+    @Enumerated(EnumType.STRING)
+    protected Role role;
 
+    @OneToMany(mappedBy = "user")
+    protected List<Token> tokens;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(this.role.name()));
     }
 
-     @Override
+    @Override
     public String getPassword() {
         return this.password;
     }
+
+    @Override
     public String getUsername() {
         return this.email;
     }
@@ -74,7 +83,7 @@ public class User  implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true ;
+        return true;
     }
 
     @Override
@@ -84,6 +93,7 @@ public class User  implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
+
 }

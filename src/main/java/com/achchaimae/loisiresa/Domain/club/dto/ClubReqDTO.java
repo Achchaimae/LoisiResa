@@ -1,5 +1,6 @@
 package com.achchaimae.loisiresa.Domain.club.dto;
 
+import com.achchaimae.loisiresa.Domain.club.Status;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -18,5 +19,6 @@ public class ClubReqDTO {
     private String  phone;
     @NotBlank(message = "logo is required")
     private String logo;
+    private Status status;
 
 }

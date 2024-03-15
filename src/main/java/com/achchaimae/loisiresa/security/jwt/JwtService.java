@@ -17,11 +17,13 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    @Value("${application.security.jwt.secret-key}")
-    private String secretKey;
-    @Value("${application.security.jwt.expiration}")
-    private long jwtExpiration;
-    @Value("${application.security.jwt.refresh-token.expiration}")
+//    @Value("${application.security.jwt.secret-key}")
+//    private String secretKey;
+//    @Value("${application.security.jwt.expiration}")
+//    private long jwtExpiration;
+//    @Value("${application.security.jwt.refresh-token.expiration}")
+private static final String SECRET_kEY = "62c47aac979ea0ad1b1fd866702b8bc23c4fcb175ed851e3939932e5c2fa3da3";
+
     private long refreshExpiration;
     public String extractUsername(String token)
     {
@@ -99,7 +101,7 @@ public class JwtService {
     }
     private Key getSignInKey()
     {
-        byte[] keyBytes = Decoders.BASE64.decode(this.secretKey);
+        byte[] keyBytes = Decoders.BASE64.decode(SECRET_kEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }

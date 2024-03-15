@@ -31,6 +31,8 @@ public class Club {
     private String  phone;
     @NotBlank(message = "logo is required")
     private String logo;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
     private List<Activity> activities;

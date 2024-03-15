@@ -1,6 +1,7 @@
 package com.achchaimae.loisiresa.Domain.club.dto;
 
 import com.achchaimae.loisiresa.Domain.activity.dto.ActivityReqDTO;
+import com.achchaimae.loisiresa.Domain.club.Status;
 import com.achchaimae.loisiresa.Domain.user.contact.dto.ContactReqDTO;
 import com.achchaimae.loisiresa.Domain.user.guide.dto.GuideReqDTO;
 import jakarta.validation.constraints.NotBlank;
@@ -21,9 +22,8 @@ public class ClubRespDTO {
 
     @NotNull(message = "Phone number cannot be null")
     private Integer phone;
-
-
     private String logo;
+    private Status status;
 
     private List<ActivityReqDTO> activities;
     private List<ContactReqDTO> contactList;

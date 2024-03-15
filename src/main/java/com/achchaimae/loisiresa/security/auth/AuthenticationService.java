@@ -1,65 +1,19 @@
 package com.achchaimae.loisiresa.security.auth;
 
-//import com.youcode.myreview.config.JwtService;
-//import com.youcode.myreview.user.User;
-//import com.youcode.myreview.user.UserRepository;
-//import com.youcode.myreview.user.enumeration.Role;
-//import lombok.RequiredArgsConstructor;
-//import org.springframework.security.authentication.AuthenticationManager;
-//import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-//import org.springframework.security.crypto.password.PasswordEncoder;
-//import org.springframework.stereotype.Service;
-//
-//@Service
-//@RequiredArgsConstructor
-//public class AuthenticationService {
-//    private final UserRepository userRepository;
-//    private final PasswordEncoder passwordEncoder;
-//    private final JwtService jwtService;
-//    private final AuthenticationManager authenticationManager;
-//    public AuthenticationResponse register(RegisterRequest request) {
-//        var user = User.builder()
-//                .firstname(request.getFirstname())
-//                .lastname(request.getLastname())
-//                .email(request.getEmail())
-//                .password(passwordEncoder.encode(request.getPassword()))
-//                .role(Role.Visitor)
-//                .build();
-//        userRepository.save(user);
-//        var jwtToken = jwtService.generateToken(user);
-//        return AuthenticationResponse.builder()
-//                .token(jwtToken)
-//                .build();
-//    }
-//
-//    public AuthenticationResponse authenticate(AuthenticationRequest request) {
-//        authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(
-//                        request.getEmail(),
-//                        request.getPassword()
-//                )
-//        );
-//        var user = userRepository.findByEmail(request.getEmail())
-//                .orElseThrow();
-//        var jwtToken = jwtService.generateToken(user);
-//        return AuthenticationResponse.builder()
-//                .token(jwtToken)
-//                .build();
-//    }
-//}
-//
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.achchaimae.loisiresa.security.user.dto.UserRespDTO;
+import com.achchaimae.loisiresa.security.user.dto.UserReqDTO;
+import com.achchaimae.loisiresa.security.user.User;
+import com.achchaimae.loisiresa.security.user.UserRepository;
 import com.achchaimae.loisiresa.security.jwt.JwtService;
 import com.achchaimae.loisiresa.security.token.Token;
 import com.achchaimae.loisiresa.security.token.TokenRepository;
 import com.achchaimae.loisiresa.security.token.TokenType;
-import com.achchaimae.loisiresa.security.user.User;
-import com.achchaimae.loisiresa.security.user.UserRepository;
-import com.achchaimae.loisiresa.security.user.dto.UserReqDTO;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -76,12 +30,17 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final ModelMapper modelMapper;
 
     public AuthenticationResponse register(UserReqDTO request) {
         var user = User.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .email(request.getEmail())
+                .dateOfBirth(request.getDateOfBirth())
+                .identityNum(request.getIdentityNum())
+                .identityDocumentType(request.getIdentityDocumentType())
+                .address(request.getAddress())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(request.getRole())
                 .build();
@@ -90,8 +49,9 @@ public class AuthenticationService {
         var refreshToken = jwtService.generateRefreshToken(user);
         saveUserToken(savedUser, jwtToken);
         return AuthenticationResponse.builder()
-                .token(jwtToken)
+                .accessToken(jwtToken)
                 .refreshToken(refreshToken)
+                .user(modelMapper.map(savedUser, UserRespDTO.class))
                 .build();
     }
 
@@ -109,7 +69,8 @@ public class AuthenticationService {
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
         return AuthenticationResponse.builder()
-                .token(jwtToken)
+                .accessToken(jwtToken)
+                .user(modelMapper.map(user, UserRespDTO.class))
                 .refreshToken(refreshToken)
                 .build();
     }
@@ -156,7 +117,7 @@ public class AuthenticationService {
                 revokeAllUserTokens(user);
                 saveUserToken(user, accessToken);
                 var authResponse = AuthenticationResponse.builder()
-                        .token(accessToken)
+                        .accessToken(accessToken)
                         .refreshToken(refreshToken)
                         .build();
                 new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
