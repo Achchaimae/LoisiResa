@@ -34,7 +34,8 @@ public class UserReqDTO {
     @Size(min = 8, message = "Password must exceed 8  characters")
     private String password;
     private Role role;
-
+    private Role requestedRole;
+    private Integer requestStatus;
     private IdentityDocumentType identityDocumentType;
     private String identityNum;
 

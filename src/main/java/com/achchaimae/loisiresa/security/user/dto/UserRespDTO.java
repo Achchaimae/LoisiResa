@@ -3,6 +3,7 @@ package com.achchaimae.loisiresa.security.user.dto;
 import com.achchaimae.loisiresa.Domain.conversation.dto.ConversationReqDTO;
 import com.achchaimae.loisiresa.Domain.message.dto.MessageReqDTO;
 import com.achchaimae.loisiresa.Domain.user.enumeration.IdentityDocumentType;
+import com.achchaimae.loisiresa.security.user.Role;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -34,7 +35,9 @@ public class UserRespDTO {
     private String email;
     private IdentityDocumentType identityDocumentType;
     private String identityNum;
-
+    private Role role;
+    private Role requestedRole;
+    private Integer requestStatus;
 
     private List<ConversationReqDTO> conversations;
 

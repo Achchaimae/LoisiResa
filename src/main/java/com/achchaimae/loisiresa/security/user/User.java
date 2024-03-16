@@ -59,6 +59,8 @@ public class User  implements UserDetails {
     @Enumerated(EnumType.STRING)
     protected Role role;
 
+    private Role requestedRole;
+    private Integer requestStatus;
     @OneToMany(mappedBy = "user")
     protected List<Token> tokens;
     @Override
