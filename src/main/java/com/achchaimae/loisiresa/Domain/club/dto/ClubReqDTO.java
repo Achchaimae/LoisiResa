@@ -20,5 +20,7 @@ public class ClubReqDTO {
     @NotBlank(message = "logo is required")
     private String logo;
     private Status status;
+    @NotNull(message = "ownerId is required")
+    private int ownerId;
 
 }

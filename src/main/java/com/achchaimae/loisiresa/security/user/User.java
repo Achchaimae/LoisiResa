@@ -61,8 +61,10 @@ public class User  implements UserDetails {
 
     private Role requestedRole;
     private Integer requestStatus;
-    @OneToMany(mappedBy = "user")
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     protected List<Token> tokens;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(this.role.name()));

@@ -191,15 +191,15 @@ public class AuthenticationService {
                     // Update the requested status to 2
                     updateRequestedStatus(userId, 2);
                 }
-
-                // Check if the status is 2, then add the user to the guide table
-                if (user.getRequestedRole() == Role.guide) {
-                    addToGuideTable(user);
-                }
-
-                if (user.getRequestedRole() == Role.contact) {
-                    addToContactTable(user);
-                }
+//
+//                // Check if the status is 2, then add the user to the guide table
+//                if (user.getRequestedRole() == Role.guide) {
+//
+//                }
+//
+//                if (user.getRequestedRole() == Role.contact) {
+//                    addToContactTable(user);
+//                }
 
 
                     return modelMapper.map(user, UserRespDTO.class);

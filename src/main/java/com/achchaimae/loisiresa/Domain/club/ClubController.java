@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,5 +50,22 @@ public class ClubController {
             return ResponseEntity.ok().body("Club delete");
         }
         return ResponseEntity.badRequest().body("Club not deleted");
+    }
+
+    @GetMapping("/pending")
+    public ResponseEntity<Page<ClubRespDTO>> getPendingClubs(Pageable pageable) {
+        Page<ClubRespDTO> pendingClubs = clubServiceInterface.getClubsByStatusPending(pageable);
+        return new ResponseEntity<>(pendingClubs, HttpStatus.OK);
+    }
+    @PutMapping("/accept/{id}")
+    public ResponseEntity<ClubRespDTO> acceptRequest(@PathVariable Integer id) {
+        ClubRespDTO clubResp = clubServiceInterface.acceptRequest(id);
+        return ResponseEntity.ok().body(clubResp);
+    }
+
+    @PutMapping("/refuse/{id}")
+    public ResponseEntity<ClubRespDTO> refuseRequest(@PathVariable Integer id) {
+        ClubRespDTO clubResp = clubServiceInterface.refuseRequest(id);
+        return ResponseEntity.ok().body(clubResp);
     }
 }

@@ -64,5 +64,33 @@ public class ClubService implements ClubServiceInterface{
         }
         return 0;
     }
+    public Page<ClubRespDTO> getClubsByStatusPending(Pageable pageable) {
+        Page<Club> entityPage = clubRepository.findByStatus(Status.Pending, pageable);
+        return entityPage.map(entity -> modelMapper.map(entity, ClubRespDTO.class));
+    }
+
+
+    public ClubRespDTO acceptRequest(Integer id) {
+        Club club = clubRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Club not found with id: " + id));
+
+        club.setStatus(Status.Accepted);
+        clubRepository.save(club);
+
+        return modelMapper.map(club, ClubRespDTO.class);
+    }
+
+
+
+    public ClubRespDTO refuseRequest(Integer id) {
+        Club club = clubRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Club not found with id: " + id));
+
+        club.setStatus(Status.Rejected);
+        clubRepository.save(club);
+
+        return modelMapper.map(club, ClubRespDTO.class);
+    }
+
 
 }

@@ -37,8 +37,10 @@ public class Club {
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
     private List<Activity> activities;
 
-    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
-    private List<Contact> contactList;
+    @ManyToOne
+    @JoinColumn(name = "club_id")
+    private Contact owner; // Reference to the owner of the club
+
 
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
     private List<Guide> guides;

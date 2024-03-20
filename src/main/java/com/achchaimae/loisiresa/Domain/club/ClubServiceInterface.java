@@ -11,4 +11,7 @@ public interface ClubServiceInterface {
     ClubRespDTO saveClub(ClubReqDTO club);
     ClubRespDTO updateClub(ClubReqDTO club, Integer id);
     Integer DeleteClub(Integer clubId);
+    Page<ClubRespDTO> getClubsByStatusPending(Pageable pageable);
+    ClubRespDTO acceptRequest(Integer id);
+    ClubRespDTO refuseRequest(Integer id);
 }

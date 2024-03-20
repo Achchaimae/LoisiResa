@@ -10,5 +10,5 @@ import java.time.LocalDate;
 public class ContactReqDTO extends UserRespDTO {
     private Integer id;
     private LocalDate firstDateContact;
-    private int club_id;
+    private Integer club_id;
 }

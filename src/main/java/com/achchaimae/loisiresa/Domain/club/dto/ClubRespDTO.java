@@ -21,11 +21,10 @@ public class ClubRespDTO {
     private String location;
 
     @NotNull(message = "Phone number cannot be null")
-    private Integer phone;
+    private String phone;
     private String logo;
     private Status status;
-
+    private ContactReqDTO owner;
     private List<ActivityReqDTO> activities;
-    private List<ContactReqDTO> contactList;
     private List<GuideReqDTO> guides;
 }
