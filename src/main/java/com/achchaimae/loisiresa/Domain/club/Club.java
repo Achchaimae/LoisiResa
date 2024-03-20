@@ -38,7 +38,7 @@ public class Club {
     private List<Activity> activities;
 
     @ManyToOne
-    @JoinColumn(name = "club_id")
+    @JoinColumn(name = "owner_Id")
     private Contact owner; // Reference to the owner of the club
 
 

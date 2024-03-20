@@ -14,4 +14,5 @@ public interface GuideServiceInterface {
     GuideRespDTO updateGuide(Integer id,GuideReqDTO guide);
     Page<GuideRespDTO> getAll(Pageable pageable);
 
+    GuideRespDTO addGuideToClub(Integer guideId, Integer clubId);
 }

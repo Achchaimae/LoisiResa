@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ClubRepository extends JpaRepository<Club,Integer> {
     Page<Club> findByStatus(Status status, Pageable pageable);
+
+    Club findByOwnerIdAndStatus(Integer ownerId, Status status);
 }

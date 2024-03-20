@@ -91,6 +91,14 @@ public class ClubService implements ClubServiceInterface{
 
         return modelMapper.map(club, ClubRespDTO.class);
     }
+    public ClubRespDTO getAcceptedClubByOwner(Integer ownerId) {
+        Club club = clubRepository.findByOwnerIdAndStatus(ownerId, Status.Accepted);
+        if (club != null) {
+            return modelMapper.map(club, ClubRespDTO.class);
+        } else {
+            throw new ResourceNotFoundException("No accepted club found for owner with ID: " + ownerId);
+        }
+    }
 
 
 }

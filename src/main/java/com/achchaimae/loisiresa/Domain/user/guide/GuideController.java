@@ -3,6 +3,7 @@ import com.achchaimae.loisiresa.Domain.user.guide.dto.GuideReqDTO;
 import com.achchaimae.loisiresa.Domain.user.guide.dto.GuideRespDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,6 +56,13 @@ public class GuideController {
         }
         return ResponseEntity.ok().body("Guide not deleted ?");
     }
-
+    @PostMapping("/add-to-club")
+    public ResponseEntity<GuideRespDTO> addGuideToClub(
+            @RequestParam Integer guideId,
+            @RequestParam Integer clubId
+    ) {
+        GuideRespDTO guideRespDTO = guideServiceInterface.addGuideToClub(guideId, clubId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(guideRespDTO);
+    }
 
 }

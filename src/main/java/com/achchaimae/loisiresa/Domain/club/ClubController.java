@@ -68,4 +68,9 @@ public class ClubController {
         ClubRespDTO clubResp = clubServiceInterface.refuseRequest(id);
         return ResponseEntity.ok().body(clubResp);
     }
+
+    @GetMapping("/owner/{ownerId}/accepted")
+    public ClubRespDTO getAcceptedClubByOwner(@PathVariable Integer ownerId) {
+        return clubServiceInterface.getAcceptedClubByOwner(ownerId);
+    }
 }

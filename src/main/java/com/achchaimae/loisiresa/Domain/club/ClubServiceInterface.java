@@ -14,4 +14,5 @@ public interface ClubServiceInterface {
     Page<ClubRespDTO> getClubsByStatusPending(Pageable pageable);
     ClubRespDTO acceptRequest(Integer id);
     ClubRespDTO refuseRequest(Integer id);
+    ClubRespDTO getAcceptedClubByOwner(Integer ownerId);
 }
