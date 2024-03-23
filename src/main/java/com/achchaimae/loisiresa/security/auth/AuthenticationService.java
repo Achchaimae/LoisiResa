@@ -180,7 +180,9 @@ public class AuthenticationService {
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             Role currentRole = user.getRole();
-
+            if (user.getRequestedRole().equals(Role.client)){
+                updateRequestedStatus(userId, 2);
+            }
             // Check if the current role is different from the newRole
             if (!currentRole.equals(newRole)) {
                 user.setRole(newRole);

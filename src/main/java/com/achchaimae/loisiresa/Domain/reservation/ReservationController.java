@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/reservation")
 public class ReservationController {
     ReservationServiceInterface reservationServiceInterface;
@@ -26,11 +26,16 @@ public class ReservationController {
     public ResponseEntity<List<ReservationRespDTO>> getReservations(){
         return ResponseEntity.ok().body(reservationServiceInterface.getReservations());
     }
-    @PostMapping
-    public ResponseEntity<ReservationRespDTO> save(@Valid @RequestBody ReservationReqDTO reservation){
-        ReservationRespDTO reserrvation1 = reservationServiceInterface.saveReservation(reservation);
-        return ResponseEntity.ok().body(reserrvation1);
-    }
+//    @PostMapping
+//    public ResponseEntity<ReservationRespDTO> save(@Valid @RequestBody ReservationReqDTO reservation){
+//        ReservationRespDTO reserrvation1 = reservationServiceInterface.saveReservation(reservation);
+//        return ResponseEntity.ok().body(reserrvation1);
+//    }
+@PostMapping
+public ResponseEntity<ReservationRespDTO> save(@Valid @RequestBody ReservationReqDTO reservation) {
+    ReservationRespDTO reservationResponse = reservationServiceInterface.saveReservation(reservation);
+    return ResponseEntity.ok().body(reservationResponse);
+}
     @DeleteMapping("/{activity_id}/{client_id}")
     public void delete(@PathVariable Integer activity_id,@PathVariable Integer client_id) {
         ReservationIDReqDTO reservationIdReqDTO = new ReservationIDReqDTO();

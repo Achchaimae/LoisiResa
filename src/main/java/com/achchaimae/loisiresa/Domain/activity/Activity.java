@@ -28,6 +28,11 @@ public class Activity {
 
     @NotNull(message = "Tariff cannot be null")
     private Float tariff;
+    @NotBlank(message = "You must specify the tag of your activity")
+    @Enumerated(EnumType.STRING)
+    private Tag tag;
+
+    private String Description;
 
     private Integer rating;
 

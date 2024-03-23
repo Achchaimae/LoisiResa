@@ -8,6 +8,8 @@ import org.springframework.data.domain.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/activity")
 public class ActivityController {
@@ -47,4 +49,15 @@ public class ActivityController {
         }
         return ResponseEntity.badRequest().body("activity not deleted");
     }
+    @GetMapping("/club/{clubId}")
+    public ResponseEntity<Page<ActivityRespDTO>> getActivitiesByClubIdPageable(@PathVariable Integer clubId, Pageable pageable) {
+        Page<ActivityRespDTO> activitiesPage = activityServiceInterface.getActivitiesByClubId(clubId, pageable);
+        return ResponseEntity.ok(activitiesPage);
+    }
+    @GetMapping("/tag/{tag}")
+    public ResponseEntity<Page<ActivityRespDTO>> getActivitiesByTag(@PathVariable Tag tag, Pageable pageable) {
+        Page<ActivityRespDTO> activitiesPage = activityServiceInterface.getActivitiesByTag(tag, pageable);
+        return ResponseEntity.ok(activitiesPage);
+    }
+
 }

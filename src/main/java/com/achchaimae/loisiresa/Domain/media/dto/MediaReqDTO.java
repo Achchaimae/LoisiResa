@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class MediaReqDTO {
-    private Long id;
+    private Integer id;
     private String mediaUrl;
 }

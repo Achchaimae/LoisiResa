@@ -7,6 +7,7 @@ import com.achchaimae.loisiresa.Domain.reservation.dto.ReservationReqDTO;
 import com.achchaimae.loisiresa.Domain.reservation.dto.ReservationRespDTO;
 import com.achchaimae.loisiresa.Domain.user.client.Client;
 import com.achchaimae.loisiresa.Domain.user.client.ClientRepository;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ public class ReservationService implements ReservationServiceInterface {
     private final ActivityRepository activityRepository;
 
     private final ClientRepository clientRepository;
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     public ReservationService(ReservationRepository reservationRepository, ActivityRepository activityRepository, ClientRepository clientRepository, ModelMapper modelMapper) {
         this.reservationRepository = reservationRepository;
@@ -35,15 +36,39 @@ public class ReservationService implements ReservationServiceInterface {
     public   List<ReservationRespDTO> getReservations(){
         return reservationRepository.findAll().stream().map(reservation -> modelMapper.map(reservation, ReservationRespDTO.class)).collect(Collectors.toList());
     }
-    public ReservationRespDTO saveReservation(ReservationReqDTO reservationReqDTO) {
-        Reservation reservation = modelMapper.map(reservationReqDTO, Reservation.class);
-        client = clientRepository.findById(reservationReqDTO.getId().getClient_id());
-        activity = activityRepository.findById(reservationReqDTO.getId().getActivity_id());
-        if(activity.isPresent() && client.isPresent()){
-            return modelMapper.map(reservation, ReservationRespDTO.class);
-        }
-        return null;
+//    public ReservationRespDTO saveReservation(ReservationReqDTO reservationReqDTO) {
+//        Reservation reservation = modelMapper.map(reservationReqDTO, Reservation.class);
+//        client = clientRepository.findById(reservationReqDTO.getId().getClient_id());
+//        activity = activityRepository.findById(reservationReqDTO.getId().getActivity_id());
+//        if(activity.isPresent() && client.isPresent()){
+//            return modelMapper.map(reservation, ReservationRespDTO.class);
+//        }
+//        return null;
+//    }
+@Transactional
+public ReservationRespDTO saveReservation(ReservationReqDTO reservationReqDTO) {
+    // Map ReservationReqDTO to Reservation entity
+    Reservation reservation = modelMapper.map(reservationReqDTO, Reservation.class);
+
+    // Find client and activity by IDs
+    Optional<Client> clientOptional = clientRepository.findById(reservationReqDTO.getId().getClient_id());
+    Optional<Activity> activityOptional = activityRepository.findById(reservationReqDTO.getId().getActivity_id());
+
+    // Check if both client and activity exist
+    if (clientOptional.isPresent() && activityOptional.isPresent()) {
+        // Set client and activity for the reservation
+        reservation.setId(new ReservationID(clientOptional.get(), activityOptional.get()));
+
+        // Save the reservation entity
+        reservation = reservationRepository.save(reservation);
+
+        // Map the saved reservation to DTO and return
+        return modelMapper.map(reservation, ReservationRespDTO.class);
+    } else {
+        // Handle case when client or activity is not found
+        throw new IllegalArgumentException("Client or Activity not found with the given IDs");
     }
+}
     public Integer Delete(ReservationIDReqDTO reservationIDReq){
         Client client1 = new Client();
         Activity activity1 = new Activity();
