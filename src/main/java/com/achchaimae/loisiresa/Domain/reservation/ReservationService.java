@@ -5,11 +5,14 @@ import com.achchaimae.loisiresa.Domain.activity.ActivityRepository;
 import com.achchaimae.loisiresa.Domain.reservation.dto.ReservationIDReqDTO;
 import com.achchaimae.loisiresa.Domain.reservation.dto.ReservationReqDTO;
 import com.achchaimae.loisiresa.Domain.reservation.dto.ReservationRespDTO;
+import com.achchaimae.loisiresa.Domain.reservation.enumeration.Etat;
 import com.achchaimae.loisiresa.Domain.user.client.Client;
 import com.achchaimae.loisiresa.Domain.user.client.ClientRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 
 import java.util.*;
@@ -36,15 +39,6 @@ public class ReservationService implements ReservationServiceInterface {
     public   List<ReservationRespDTO> getReservations(){
         return reservationRepository.findAll().stream().map(reservation -> modelMapper.map(reservation, ReservationRespDTO.class)).collect(Collectors.toList());
     }
-//    public ReservationRespDTO saveReservation(ReservationReqDTO reservationReqDTO) {
-//        Reservation reservation = modelMapper.map(reservationReqDTO, Reservation.class);
-//        client = clientRepository.findById(reservationReqDTO.getId().getClient_id());
-//        activity = activityRepository.findById(reservationReqDTO.getId().getActivity_id());
-//        if(activity.isPresent() && client.isPresent()){
-//            return modelMapper.map(reservation, ReservationRespDTO.class);
-//        }
-//        return null;
-//    }
 @Transactional
 public ReservationRespDTO saveReservation(ReservationReqDTO reservationReqDTO) {
     // Map ReservationReqDTO to Reservation entity
@@ -93,5 +87,61 @@ public ReservationRespDTO saveReservation(ReservationReqDTO reservationReqDTO) {
         }
         return null;
     }
+    public List<ReservationRespDTO> findReservationsByClubId(Integer clubId) {
+        // Get all reservations
+        List<Reservation> allReservations = reservationRepository.findAll();
+
+        // Filter reservations by club ID
+        List<Reservation> filteredReservations = allReservations.stream()
+                .filter(reservation -> reservation.getId().getActivity().getClub().getId()==(clubId))
+                .toList();
+
+        // Map filtered reservations to DTOs and return
+        return filteredReservations.stream()
+                .map(reservation -> modelMapper.map(reservation, ReservationRespDTO.class))
+                .collect(Collectors.toList());
+    }
+    public ReservationRespDTO acceptReservation(Integer clientId, Integer activityId) {
+        Optional<Client> clientOptional = clientRepository.findById(clientId);
+        Optional<Activity> activityOptional = activityRepository.findById(activityId);
+
+        if (clientOptional.isPresent() && activityOptional.isPresent()) {
+            ReservationID reservationId = new ReservationID(clientOptional.get(), activityOptional.get());
+            Optional<Reservation> reservationOptional = reservationRepository.findById(reservationId);
+
+            if (reservationOptional.isPresent()) {
+                Reservation reservation = reservationOptional.get();
+                reservation.setEtat(Etat.CONFIRME);
+                Reservation savedReservation = reservationRepository.save(reservation);
+                return modelMapper.map(savedReservation, ReservationRespDTO.class);
+            } else {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Reservation not found");
+            }
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Client or Activity not found");
+        }
+    }
+
+    public ReservationRespDTO refuseReservation(Integer clientId, Integer activityId) {
+        Optional<Client> clientOptional = clientRepository.findById(clientId);
+        Optional<Activity> activityOptional = activityRepository.findById(activityId);
+
+        if (clientOptional.isPresent() && activityOptional.isPresent()) {
+            ReservationID reservationId = new ReservationID(clientOptional.get(), activityOptional.get());
+            Optional<Reservation> reservationOptional = reservationRepository.findById(reservationId);
+
+            if (reservationOptional.isPresent()) {
+                Reservation reservation = reservationOptional.get();
+                reservation.setEtat(Etat.ANUULE);  // Assuming Etat is an enum with ANNULLE value
+                Reservation savedReservation = reservationRepository.save(reservation);
+                return modelMapper.map(savedReservation, ReservationRespDTO.class);
+            } else {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Reservation not found");
+            }
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Client or Activity not found");
+        }
+    }
+
 }
 

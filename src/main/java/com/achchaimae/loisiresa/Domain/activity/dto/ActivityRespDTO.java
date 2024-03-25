@@ -5,6 +5,7 @@ import com.achchaimae.loisiresa.Domain.club.Club;
 import com.achchaimae.loisiresa.Domain.club.dto.ClubRespDTO;
 import com.achchaimae.loisiresa.Domain.media.dto.MediaReqDTO;
 import com.achchaimae.loisiresa.Domain.reservation.Reservation;
+import com.achchaimae.loisiresa.Domain.reservation.dto.ReservationReqDTO;
 import com.achchaimae.loisiresa.Domain.user.guide.dto.GuideReqDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -33,7 +34,7 @@ public class ActivityRespDTO {
     private Tag tag;
     private List<GuideReqDTO> guideList;
 
-    private List<Reservation> reservations;
+    private List<ReservationReqDTO> reservations;
 
     @NotNull(message = "Club cannot be null")
     private ClubRespDTO club;

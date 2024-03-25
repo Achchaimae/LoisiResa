@@ -10,4 +10,7 @@ import java.util.Optional;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation,Integer> {
     Optional<Reservation> findById_ActivityAndId_Client(Client client, Activity activity);
+
+
+    Optional<Reservation> findById(ReservationID reservationId);
 }

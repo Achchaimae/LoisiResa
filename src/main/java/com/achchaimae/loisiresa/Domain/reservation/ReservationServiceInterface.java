@@ -12,4 +12,8 @@ public interface ReservationServiceInterface {
     Integer Delete(ReservationIDReqDTO reservationIDReq);
     ReservationRespDTO findReservation(Integer reservationId);
 
+    List<ReservationRespDTO> findReservationsByClubId(Integer clubId);
+
+    ReservationRespDTO refuseReservation(Integer clientId, Integer activityId);
+    ReservationRespDTO acceptReservation(Integer clientId, Integer activityId);
 }
