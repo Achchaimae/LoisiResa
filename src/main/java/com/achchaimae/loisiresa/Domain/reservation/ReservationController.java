@@ -70,4 +70,9 @@ public ResponseEntity<ReservationRespDTO> save(@Valid @RequestBody ReservationRe
             return ResponseEntity.status(ex.getStatusCode()).body(null);
         }
     }
+    @GetMapping("/guides/{guideId}")
+    public ResponseEntity<List<ReservationRespDTO>> getReservationsByGuideId(@PathVariable Integer guideId) {
+        List<ReservationRespDTO> reservations = reservationServiceInterface.getReservationByGuideId(guideId);
+        return ResponseEntity.ok(reservations);
+    }
 }

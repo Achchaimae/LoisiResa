@@ -8,6 +8,7 @@ import com.achchaimae.loisiresa.Domain.reservation.dto.ReservationRespDTO;
 import com.achchaimae.loisiresa.Domain.reservation.enumeration.Etat;
 import com.achchaimae.loisiresa.Domain.user.client.Client;
 import com.achchaimae.loisiresa.Domain.user.client.ClientRepository;
+import com.achchaimae.loisiresa.Domain.user.guide.Guide;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -143,5 +144,22 @@ public ReservationRespDTO saveReservation(ReservationReqDTO reservationReqDTO) {
         }
     }
 
+    public List<ReservationRespDTO> getReservationByGuideId(Integer guideId) {
+        // Get all reservations
+        List<Reservation> allReservations = reservationRepository.findAll();
+
+        // Filter reservations by guide ID
+        List<Reservation> filteredReservations = allReservations.stream()
+                .filter(reservation -> {
+                    List<Guide> guideList = reservation.getId().getActivity().getGuideList();
+                    return guideList != null && guideList.stream().anyMatch(guide -> guide.getId().equals(guideId));
+                })
+                .toList();
+
+        // Map filtered reservations to DTOs and return
+        return filteredReservations.stream()
+                .map(reservation -> modelMapper.map(reservation, ReservationRespDTO.class))
+                .collect(Collectors.toList());
+    }
 }
 

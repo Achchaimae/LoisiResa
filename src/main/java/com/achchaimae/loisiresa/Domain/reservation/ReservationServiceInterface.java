@@ -16,4 +16,6 @@ public interface ReservationServiceInterface {
 
     ReservationRespDTO refuseReservation(Integer clientId, Integer activityId);
     ReservationRespDTO acceptReservation(Integer clientId, Integer activityId);
+
+    List<ReservationRespDTO> getReservationByGuideId(Integer guideId);
 }
