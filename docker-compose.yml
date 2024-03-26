@@ -1,0 +1,33 @@
+version: '3'
+services:
+    db:
+      image: postgres
+#      always: restart
+      environment:
+        POSTGRES_PASSWORD: root
+        POSTGRES_USER: root
+        POSTGRES_DB: mydb
+      container_name: "mydb"
+      ports:
+        - "5433:5432"
+      networks:
+        - network
+      volumes:
+        - db:/var/lib/postgresql/data
+    backend:
+      container_name: backend
+      ports:
+        - "8080:8080"
+      depends_on:
+        - "db"
+      build:
+        context: .
+        dockerfile: Dockerfile
+      networks:
+        - network
+networks:
+  network:
+    driver: bridge
+volumes:
+  db:
+    driver: local

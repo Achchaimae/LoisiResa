@@ -6,11 +6,12 @@ import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/activity")
 public class ActivityController {
     ActivityServiceInterface activityServiceInterface;
@@ -59,5 +60,9 @@ public class ActivityController {
         Page<ActivityRespDTO> activitiesPage = activityServiceInterface.getActivitiesByTag(tag, pageable);
         return ResponseEntity.ok(activitiesPage);
     }
-
+    @PutMapping("/{activityId}/like")
+    public ResponseEntity<ActivityRespDTO> rateActivity(@PathVariable Integer activityId) {
+        ActivityRespDTO ratedActivity = activityServiceInterface.Like(activityId);
+        return ResponseEntity.ok(ratedActivity);
+    }
 }

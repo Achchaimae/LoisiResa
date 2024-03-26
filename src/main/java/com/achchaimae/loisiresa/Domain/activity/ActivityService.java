@@ -40,13 +40,6 @@ public class ActivityService implements ActivityServiceInterface{
         }
         return null;
     }
-
-//    public ActivityRespDTO saveActivity(ActivityReqDTO activity){
-//        if(activityRepository.existsById(activity.getId())){
-//            throw new RecordAlreadyExistsException("Activity with Id "+activity.getId()+ "already exists.");
-//        }
-//        return modelMapper.map(activityRepository.save(modelMapper.map(activity, Activity.class)), ActivityRespDTO.class);
-//    }
 public ActivityRespDTO saveActivity(ActivityReqDTO activityReqDTO) {
     if (activityRepository.existsById(activityReqDTO.getId())) {
         throw new RecordAlreadyExistsException("Activity with ID " + activityReqDTO.getId() + " already exists.");
@@ -98,5 +91,20 @@ public ActivityRespDTO saveActivity(ActivityReqDTO activityReqDTO) {
         return activitiesPage.map(activity -> modelMapper.map(activity, ActivityRespDTO.class));
     }
 
+
+
+
+    public ActivityRespDTO Like(Integer activityId) {
+        Optional<Activity> activityOptional = activityRepository.findById(activityId);
+        if (activityOptional.isPresent()) {
+            Activity activity = activityOptional.get();
+            int currentRating = activity.getRating();
+            activity.setRating(currentRating + 1); // Increment rating by 1
+            Activity updatedActivity = activityRepository.save(activity);
+            return modelMapper.map(updatedActivity, ActivityRespDTO.class);
+        } else {
+            throw new ResourceNotFoundException("Activity with id " + activityId + " not found.");
+        }
+    }
 
 }

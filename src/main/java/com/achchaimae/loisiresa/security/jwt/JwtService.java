@@ -23,7 +23,7 @@ public class JwtService {
 //    private long jwtExpiration;
 //    @Value("${application.security.jwt.refresh-token.expiration}")
 private static final String SECRET_kEY = "62c47aac979ea0ad1b1fd866702b8bc23c4fcb175ed851e3939932e5c2fa3da3";
-
+//    responsable for creation tocken generation validation and extract les infromation
     private long refreshExpiration;
     public String extractUsername(String token)
     {

@@ -30,15 +30,5 @@ public class Conversation {
     private List<Message> messages;
 
 
-//    public void addParticipant(User user) {
-//        if (this.users == null) {
-//            this.users = new ArrayList<>();
-//        }
-//
-//        if (this.users.size() < 2) {
-//            this.users.add(user);
-//        } else {
-//            throw new IllegalStateException("A conversation can only have two users.");
-//        }
-//    }
+
 }

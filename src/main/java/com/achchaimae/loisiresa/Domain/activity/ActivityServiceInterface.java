@@ -16,4 +16,6 @@ public interface ActivityServiceInterface{
 
     Page<ActivityRespDTO> getActivitiesByClubId(Integer clubId, Pageable pageable);
     Page<ActivityRespDTO> getActivitiesByTag(Tag tag, Pageable pageable);
+
+    ActivityRespDTO Like(Integer activityId);
 }
